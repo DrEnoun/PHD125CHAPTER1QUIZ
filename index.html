@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>CHAPTER 1 QUIZ ACTIVITY</title>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+    options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+  };
+</script>
+<style>
+
+:root{ --bg:#0b1220; --panel:#111a2e; --text:#e5e7eb; --muted:#aab3c5; --primary:#6366f1; --primary2:#22c55e; --border:color-mix(in srgb, var(--text) 18%, transparent); --option-bg:color-mix(in srgb, var(--panel) 88%, var(--primary) 12%); --option-hover:color-mix(in srgb, var(--panel) 80%, var(--primary) 20%); --option-active:color-mix(in srgb, var(--panel) 72%, var(--primary) 28%); --radius:16px; --app-font:'Noto Sans', 'Segoe UI', Tahoma, Arial, sans-serif; }
+body{ margin:0; font-family:var(--app-font); background:var(--bg); color:var(--text); min-height:100vh; display:flex; justify-content:center; padding:20px; box-sizing:border-box; position: relative; overflow-x: hidden; }
+#bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+button,input,table,th,td,label,h1,h2,h3,p,div{ font-family:var(--app-font); }
+.card{ background:var(--panel); width:100%; max-width:600px; border-radius:var(--radius); padding:24px; box-shadow:0 10px 30px rgba(0,0,0,0.3), 0 0 40px rgba(99, 102, 241, 0.15); border:1px solid var(--border); z-index: 1; backdrop-filter: blur(10px); background: color-mix(in srgb, var(--panel) 95%, transparent); }
+.quizLogoWrap{ width:162px; height:162px; border-radius:50%; overflow:hidden; margin:4px auto 18px; border:1px solid var(--border); background:rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; }
+.quizLogo{ width:100%; height:100%; object-fit:cover; display:block; }
+.loginIntro{ text-align:center; }
+.loginForm{ width:100%; max-width:420px; margin:0 auto; }
+.loginForm label{ text-align:left; }
+.loginForm input{ text-align:left; }
+.reviewBox{ margin-top:20px; border-top:1px solid var(--border); padding-top:18px; }
+.reviewItem{ border:1px solid var(--border); border-radius:12px; padding:14px; margin-top:12px; background:color-mix(in srgb, var(--panel) 90%, var(--primary) 10%); }
+.badge{ display:inline-block; padding:4px 8px; border-radius:999px; font-size:11px; font-weight:800; margin-bottom:8px; }
+.badge.ok{ background:rgba(34,197,94,.16); color:var(--primary2); }
+.badge.no{ background:rgba(239,68,68,.16); color:#ef4444; }
+.reviewMeta{ font-size:13px; line-height:1.55; color:var(--text); }
+.reviewMeta b{ color:var(--muted); }
+label{ font-size:10px; text-transform:uppercase; font-weight:bold; color:var(--muted); margin-bottom:4px; display:block; }
+.loginForm label{ font-size:12px; }
+.loginForm input{ padding:10px 12px; }
+input{ width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:color-mix(in srgb, var(--panel) 92%, var(--text) 8%); color:var(--text); margin-bottom:15px; box-sizing:border-box; outline:none; }
+.loginForm input{ padding:10px 12px; }
+.timerBox{ width:max-content; min-width:118px; margin:0 auto 14px; padding:8px 16px; border-radius:999px; background:linear-gradient(135deg, color-mix(in srgb, var(--primary) 18%, var(--panel) 82%), color-mix(in srgb, var(--primary2) 16%, var(--panel) 84%)); border:1px solid color-mix(in srgb, var(--primary) 42%, var(--border)); color:var(--primary2); font-size:17px; font-weight:800; letter-spacing:.04em; text-align:center; box-shadow:0 8px 22px rgba(0,0,0,.16); }
+.timeEndNotice{ margin:0 0 16px; padding:12px 14px; border-radius:14px; background:color-mix(in srgb, #ef4444 12%, var(--panel) 88%); border:1px solid color-mix(in srgb, #ef4444 46%, var(--border)); color:var(--text); text-align:center; font-size:15px; font-weight:800; }
+.btn{ background:var(--primary); color:#fff; border:none; padding:12px 20px; border-radius:10px; cursor:pointer; font-weight:800; width:100%; transition:0.2s; box-shadow:0 8px 18px rgba(0,0,0,.22); }
+.btn:hover{ filter:brightness(1.1); }
+.btn-back{ background:linear-gradient(135deg, var(--primary), var(--primary2)); color:#fff; border:1px solid rgba(255,255,255,.35); box-shadow:0 0 0 3px rgba(255,255,255,.10), 0 8px 22px rgba(0,0,0,.25); }
+.btn-back:hover{ filter:brightness(1.18); box-shadow:0 0 0 4px rgba(255,255,255,.14), 0 10px 26px rgba(0,0,0,.30); }
+.opt{ display:block; padding:14px; border:1px solid color-mix(in srgb, var(--primary) 35%, var(--border)); border-radius:10px; margin-bottom:10px; cursor:pointer; transition:0.2s; background:var(--option-bg); color:var(--text); font-weight:600; }
+.opt:hover{ background:var(--option-hover); border-color:color-mix(in srgb, var(--primary) 55%, var(--border)); } .opt.active{ border-color:var(--primary); background:var(--option-active); box-shadow:0 0 0 3px color-mix(in srgb, var(--primary) 24%, transparent); }
+.bar{ height:6px; background:rgba(255,255,255,0.05); border-radius:3px; margin-bottom:20px; overflow:hidden; }
+.fill{ height:100%; background:var(--primary); transition:width 0.3s; }
+table{ width:100%; border-collapse:collapse; margin-top:15px; font-size:12px; }
+th, td{ text-align:left; padding:8px; border-bottom:1px solid var(--border); }
+@media (min-width: 901px){ body{ overflow:hidden; } .card{ max-height:calc(100vh - 40px); overflow:auto; } }
+
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="card" id="app"></div>
+<script>
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let width, height;
+let molecules = [];
+
+function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+}
+
+window.addEventListener('resize', resize);
+resize();
+
+class Molecule {
+    constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 1.5;
+        this.vy = (Math.random() - 0.5) * 1.5;
+        this.size = Math.random() * 20 + 10;
+        // Cute glowing colors: pinks, blues, greens, purples
+        const colors = ['#f472b6', '#60a5fa', '#34d399', '#a78bfa', '#fbbf24'];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.nodes = Math.floor(Math.random() * 3) + 3; // 3 to 5 nodes
+        this.angle = Math.random() * Math.PI * 2;
+        this.spin = (Math.random() - 0.5) * 0.02;
+    }
+
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.angle += this.spin;
+
+        // Bounce off edges gently
+        if (this.x < -50) this.x = width + 50;
+        if (this.x > width + 50) this.x = -50;
+        if (this.y < -50) this.y = height + 50;
+        if (this.y > height + 50) this.y = -50;
+    }
+
+    draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+
+        // Glow effect
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = this.color;
+        ctx.fillStyle = this.color;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.lineWidth = 2;
+
+        // Draw connections and nodes
+        ctx.beginPath();
+        for (let i = 0; i < this.nodes; i++) {
+            const a = (i / this.nodes) * Math.PI * 2;
+            const nx = Math.cos(a) * this.size;
+            const ny = Math.sin(a) * this.size;
+            
+            if (i === 0) ctx.moveTo(0, 0);
+            ctx.lineTo(nx, ny);
+            
+            // Draw node
+            ctx.moveTo(nx, ny);
+            ctx.arc(nx, ny, this.size * 0.3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.moveTo(0, 0); // go back to center for next line
+        }
+        
+        // Draw center node
+        ctx.arc(0, 0, this.size * 0.4, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.stroke();
+        ctx.restore();
+    }
+}
+
+function initMolecules() {
+    molecules = [];
+    const numMolecules = Math.floor((width * height) / 40000); // Responsive amount
+    for (let i = 0; i < numMolecules; i++) {
+        molecules.push(new Molecule());
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw connections between close molecules
+    ctx.lineWidth = 1;
+    for (let i = 0; i < molecules.length; i++) {
+        for (let j = i + 1; j < molecules.length; j++) {
+            const dx = molecules[i].x - molecules[j].x;
+            const dy = molecules[i].y - molecules[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < 150) {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(167, 139, 250, ${1 - dist / 150})`; // Purple tint connection
+                ctx.moveTo(molecules[i].x, molecules[i].y);
+                ctx.lineTo(molecules[j].x, molecules[j].y);
+                ctx.stroke();
+            }
+        }
+    }
+
+    molecules.forEach(m => {
+        m.update();
+        m.draw();
+    });
+    
+    requestAnimationFrame(animate);
+}
+
+initMolecules();
+animate();
+
+const DATA = {"title":"CHAPTER 1 QUIZ ACTIVITY","desc":"Answer all questions and review your feedback at the end.","lang":"en","randQ":true,"randA":true,"saveData":true,"classLbl":"Class","sheetUrl":"https://script.google.com/macros/s/AKfycbxJt-48c69vf_bsNgWKpPjE0l5PYWPDlJ6Eq1Kwk4Eb8ML6HTtr-9QWSrefHM1-0Qr3MQ/exec","logoUrl":"https://thumbs.dreamstime.com/b/acetaldehyde-chemical-structure-d-model-detailed-illustration-organic-chemistry-education-research-image-showcases-375250393.jpg","timerMinutes":0,"hasExplanation":true,"questions":[{"q":"In 1828, which scientist successfully synthesized urea from an inorganic mineral, effectively disproving the 'vital force' theory?","choices":["August Wilhelm von Hofmann","Madam A","Friedrich Kekulé","Friedrich Wöhler"],"answerIndex":3,"explain":"He is credited with synthesizing urea in a laboratory, showing that organic compounds could be created from non-living matter.","rationales":["Hofmann was a prominent chemist, but the synthesis of urea that disproved vitalism is specifically attributed to Wöhler.","She is the instructor mentioned in the lecture title, not the historical figure associated with the 1828 urea synthesis.","While he is famous for proposing the structure of the benzene ring, he was not the one who disproved the vital force theory.","He is credited with synthesizing urea in a laboratory, showing that organic compounds could be created from non-living matter."]},{"q":"According to standard valence rules in organic chemistry, how many covalent bonds does a neutral Nitrogen (N) atom typically form?","choices":["1","2","4","3"],"answerIndex":3,"explain":"Nitrogen requires three bonds to reach stability, which can be achieved through three single bonds, a single and a double, or one triple bond.","rationales":["This is the standard bonding capacity for Hydrogen or halogens like Fluorine and Chlorine.","Oxygen and Sulfur typically form two covalent bonds to satisfy their valence requirements.","Carbon is the primary element that forms four covalent bonds in organic structures.","Nitrogen requires three bonds to reach stability, which can be achieved through three single bonds, a single and a double, or one triple bond."]},{"q":"Which of the following elements is NOT considered one of the most common elements found in organic molecules alongside Carbon?","choices":["Nitrogen","Chlorine","Sodium","Sulfur"],"answerIndex":2,"explain":"Organic chemistry primarily focuses on nonmetals like C, H, O, N, S, and halogens; metals like Sodium are generally found in inorganic salts.","rationales":["Nitrogen is a key component of organic molecules such as proteins and nucleic acids.","As a halogen, Chlorine is a common element that forms a single covalent bond in many organic derivatives.","Organic chemistry primarily focuses on nonmetals like C, H, O, N, S, and halogens; metals like Sodium are generally found in inorganic salts.","Sulfur is frequently found in various organic compounds and follows the same bonding rules as oxygen."]},{"q":"What is the defining characteristic of a hydrocarbon?","choices":["It is characterized by having only triple bonds.","It must contain at least one Oxygen atom.","It always contains a benzene ring.","It contains only Carbon and Hydrogen atoms."],"answerIndex":3,"explain":"By definition, hydrocarbons are the simplest organic compounds composed solely of C and H elements.","rationales":["Hydrocarbons can contain single, double, or triple bonds depending on whether they are alkanes, alkenes, or alkynes.","Compounds containing oxygen are considered derivatives of hydrocarbons, rather than hydrocarbons themselves.","While aromatic hydrocarbons contain benzene rings, aliphatic hydrocarbons do not, yet both are classified as hydrocarbons.","By definition, hydrocarbons are the simplest organic compounds composed solely of C and H elements."]},{"q":"Which general formula is used to identify the homologous series of alkanes?","choices":["C\nn\n​\n\nH\n2n+2\n​","C\nn\n​\n\nH\n2n\n​","C\nn\n​\n\nH\n2n+1\n​","C\nn\n​\n\nH\n2n−2\n​"],"answerIndex":0,"explain":"This formula accounts for a saturated carbon chain where every carbon is bonded to the maximum number of hydrogens.","rationales":["This formula accounts for a saturated carbon chain where every carbon is bonded to the maximum number of hydrogens.","This formula represents alkenes or cycloalkanes, which have two fewer hydrogens than the corresponding straight-chain alkane.","This formula describes an alkyl group, which is a substituent formed by removing one hydrogen from an alkane.","This is the general formula for alkynes, which contain a triple bond and thus even fewer hydrogen atoms."]},{"q":"At room temperature, which of the following straight-chain alkanes would exist in a gaseous state?","choices":["Paraffin Wax (>C\n18\n​\n\n)","Butane (C\n4\n​\n\nH\n10\n​\n\n)","Hexane (C\n6\n​\n\nH\n14\n​\n\n)","Octane (C\n8\n​\n\nH\n18\n​\n\n)"],"answerIndex":1,"explain":"Alkanes in the range of C 1 ​ to C 4 ​ are gases at room temperature due to their low molecular mass.","rationales":["Alkanes with more than 18 carbons have sufficient intermolecular forces to exist as solids.","Alkanes in the range of C\n1\n​\n\nto C\n4\n​\n\nare gases at room temperature due to their low molecular mass.","Straight-chain alkanes with 5 to 18 carbons are typically liquids at room temperature.","Octane is a component of gasoline and exists as a liquid at room temperature."]},{"q":"Why do branched-chain alkanes typically have lower boiling points than straight-chain alkanes with the same molecular formula?","choices":["Branching allows for the formation of hydrogen bonds.","Branching increases the molecular mass of the compound.","Branched alkanes are more polar than straight-chain alkanes.","Branching makes the molecule more compact, reducing its surface area and intermolecular attractions."],"answerIndex":3,"explain":"A nearly spherical shape results in less surface contact between molecules, weakening the forces that must be overcome to boil.","rationales":["Alkanes lack the O−H or N−H groups necessary to form hydrogen bonds.","Branching does not change the molecular mass if the number of carbon and hydrogen atoms remains the same (isomers).","Alkanes are practically non-polar regardless of their branching because carbon and hydrogen have similar electronegativities.","A nearly spherical shape results in less surface contact between molecules, weakening the forces that must be overcome to boil."]},{"q":"Which of the following is a characteristic of alkanes regarding their solubility?","choices":["They form hydrogen bonds with dimethyl ether.","They are hydrophobic and insoluble in water.","They are only soluble in ionic solvents.","They are highly soluble in water due to dipole-dipole interactions."],"answerIndex":1,"explain":"Because they cannot form hydrogen bonds with water, alkanes are 'water-fearing' and remain insoluble.","rationales":["While soluble in weak polar solvents like dimethyl ether, alkanes do not form hydrogen bonds.","Because they cannot form hydrogen bonds with water, alkanes are 'water-fearing' and remain insoluble.","Alkanes prefer non-polar organic solvents like benzene rather than ionic environments.","Alkanes are non-polar and cannot interact effectively with polar water molecules."]},{"q":"What structural change occurs when an alkene undergoes a characteristic hydrogenation reaction?","choices":["A triple bond is converted into a double bond.","One hydrogen atom is removed to form an alkyl group.","The carbon atoms form a closed ring structure.","The double bond is broken, and the molecule becomes a saturated alkane."],"answerIndex":3,"explain":"Hydrogenation adds H 2 ​ across the C=C double bond, resulting in only single bonds (C−C).","rationales":["Converting a triple bond to a double bond describes the partial hydrogenation of an alkyne, not the standard reaction of an alkene.","Removing a hydrogen atom is the process for forming an alkyl substituent, not hydrogenation.","Forming a ring structure describes cyclization, whereas hydrogenation specifically involves adding hydrogen atoms.","Hydrogenation adds H\n2\n​\n\nacross the C=C double bond, resulting in only single bonds (C−C)."]},{"q":"An alkyne is distinguished from other aliphatic hydrocarbons by the presence of at least one:","choices":["Carbon-carbon double bond (C=C)","Benzene ring","Carbon-carbon triple bond (C≡C)","Continuous chain of single bonds only"],"answerIndex":2,"explain":"Alkynes are defined by having at least one triple bond, formed by removing two hydrogens from each of two adjacent carbons.","rationales":["Double bonds are the defining functional group for the alkene homologous series.","Benzene rings are the defining feature of aromatic hydrocarbons, not aliphatic alkynes.","Alkynes are defined by having at least one triple bond, formed by removing two hydrogens from each of two adjacent carbons.","A chain containing only single bonds is a characteristic of saturated alkanes."]}]}; 
+const UI = {"name":"Full Name","class":"Class","start":"Start Quiz","next":"Next","back":"Back","finish":"Finish","retake":"Retake","rank":"Top 10 Ranking","saving":"Saving data...","result":"Result","q":"Q","tableName":"Name","tableClass":"Class","percent":"%","alertInfo":"Please fill in your details.","alertChoose":"Please choose an answer.","review":"Answer Review","questionLabel":"Question","answerLabel":"Answer","explanationLabel":"Explanation","correct":"Correct","incorrect":"Incorrect","feedbackCorrect":"Correct answer, no comment.","feedbackWrong":"Your answer does not match the key concept.","noRefNote":"No explanation was found in the uploaded question file.","timeEnd":"Time End"};
+let state = { mode:'login', idx:0, ans:[], name:'', class:'', qs:[], loading:false, ranking:[], endTime:0, remaining:0, timeEnded:false };
+let timerInterval = null;
+function esc(v){ return String(v ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function formatTime(ms){ const total = Math.max(0, Math.ceil(ms/1000)); const m = Math.floor(total/60); const s = total % 60; return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'); }
+function startTimer(){ if(timerInterval) clearInterval(timerInterval); if(!DATA.timerMinutes) return; state.endTime = Date.now() + DATA.timerMinutes * 60000; timerInterval = setInterval(() => { state.remaining = state.endTime - Date.now(); if(state.remaining <= 0){ clearInterval(timerInterval); timerInterval = null; state.timeEnded = true; finish(); } else if(state.mode === 'quiz') { const el = document.getElementById('timerBox'); if(el) el.textContent = formatTime(state.remaining); } }, 1000); }
+function timerHtml(){ return DATA.timerMinutes && state.mode === 'quiz' ? '<div class="timerBox" id="timerBox">' + formatTime(state.endTime - Date.now()) + '</div>' : ''; }
+function buildReview(){
+  return '<div class="reviewBox"><h3 style="text-align:center; margin:0 0 12px;">' + UI.review + '</h3>' +
+    state.qs.map((q,i) => {
+      const picked = state.ans[i];
+      const ok = picked === q.answerIndex;
+      const userAns = picked === null || picked === undefined ? '-' : q.choices[picked];
+      const selectedRationale = q.rationales && picked !== null && picked !== undefined ? q.rationales[picked] : "";
+      const correctRationale = q.rationales ? q.rationales[q.answerIndex] : "";
+      const fb = selectedRationale || correctRationale || q.explain || (ok ? UI.feedbackCorrect : UI.feedbackWrong + " " + UI.noRefNote);
+      return '<div class="reviewItem">' +
+        '<span class="badge ' + (ok ? 'ok' : 'no') + '">' + (ok ? UI.correct : UI.incorrect) + '</span>' +
+        '<div class="reviewMeta"><b>' + UI.questionLabel + ':</b> ' + esc(q.q) + '</div>' +
+        '<div class="reviewMeta"><b>' + UI.answerLabel + ':</b> ' + esc(userAns) + '</div>' +
+        '<div class="reviewMeta"><b>' + UI.explanationLabel + ':</b> ' + esc(fb) + '</div>' +
+      '</div>';
+    }).join('') + '</div>';
+}
+
+function render(){
+  const app = document.getElementById('app');
+  if(state.mode==='login'){
+    const logoHtml = DATA.logoUrl ? '<div class="quizLogoWrap"><img class="quizLogo" src="' + esc(DATA.logoUrl) + '" alt="Logo"></div>' : '';
+    app.innerHTML = '<div class="loginIntro">' + logoHtml + '<h1>' + DATA.title + '</h1><p class="desc">' + DATA.desc + '</p></div>' +
+      '<div class="loginForm"><label>' + UI.name + '</label><input type="text" id="u_name" value="' + esc(state.name) + '">' +
+      '<label>' + UI.class + '</label><input type="text" id="u_class" value="' + esc(state.class) + '">' +
+      '<button class="btn" onclick="start()">' + UI.start + '</button></div>';
+  } else if(state.mode==='quiz'){
+    const q = state.qs[state.idx];
+    const backBtn = state.idx > 0 ? '<button class="btn btn-back" style="margin-top:10px;" onclick="back()">' + UI.back + '</button>' : '';
+    const finishBtn = state.idx === state.qs.length - 1 ? '<button class="btn" style="margin-top:10px;" onclick="next()">' + UI.finish + '</button>' : '';
+    app.innerHTML = timerHtml() + '<div class="bar"><div class="fill" style="width:' + ((state.idx)/state.qs.length)*100 + '%"></div></div>' +
+      '<div style="font-size:11px; color:var(--muted); margin-bottom:10px;">' + UI.q + ' ' + (state.idx+1) + ' / ' + state.qs.length + '</div>' +
+      '<h2 style="font-size:17px; margin-bottom:20px;">' + q.q + '</h2>' +
+      q.choices.map((c,i) => '<div class="opt ' + (state.ans[state.idx]===i?'active':'') + '" onclick="setAns(' + i + ')">' + c + '</div>').join('') +
+      finishBtn + backBtn;
+  } else if(state.mode==='result'){
+    let score = state.ans.reduce((acc, a, i) => acc + (a === state.qs[i].answerIndex ? 1 : 0), 0);
+    let pct = Math.round((score/state.qs.length)*100);
+    let html = '<h1>' + UI.result + '</h1>' + (state.timeEnded ? '<div class="timeEndNotice">' + UI.timeEnd + '</div>' : '') + '<div style="font-size:48px; font-weight:900; color:var(--primary2);">' + pct + '% (' + score + '/' + state.qs.length + ')</div>';
+    html += buildReview();
+    if(DATA.saveData){
+      html += '<div style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px;"><h3 style="text-align:center;">' + UI.rank + '</h3>';
+      if(state.loading) html += '<p>' + UI.saving + '</p>';
+      else if(state.ranking.length > 0) {
+        html += '<table><tr><th>#</th><th>' + UI.tableName + '</th><th>' + UI.tableClass + '</th><th>' + UI.percent + '</th></tr>' + 
+          state.ranking.map((r,i) => '<tr><td>' + (i+1) + '</td><td>' + esc(r.name) + '</td><td>' + esc(r.class) + '</td><td>' + esc(r.percent) + '</td></tr>').join('') + '</table>';
+      }
+      html += '</div>';
+    }
+    html += '<button class="btn" style="margin-top:20px;" onclick="location.reload()">' + UI.retake + '</button>';
+    app.innerHTML = html;
+  }
+  if (window.MathJax && window.MathJax.typeset) window.MathJax.typeset();
+}
+function start(){
+  state.name = document.getElementById('u_name').value.trim(); 
+  state.class = document.getElementById('u_class').value.trim();
+  if(!state.name || !state.class) return alert(UI.alertInfo);
+  state.qs = JSON.parse(JSON.stringify(DATA.questions));
+  if(DATA.randQ) state.qs.sort(() => Math.random()-0.5);
+  if(DATA.randA) state.qs.forEach(q => {
+    const originalCorrect = q.choices[q.answerIndex];
+    const rationales = Array.isArray(q.rationales) ? q.rationales : [];
+    const pairs = q.choices.map((choice, idx) => ({ choice, rationale: rationales[idx] || "" }));
+    pairs.sort(() => Math.random()-0.5);
+    q.choices = pairs.map(p => p.choice);
+    q.rationales = pairs.map(p => p.rationale);
+    q.answerIndex = q.choices.indexOf(originalCorrect);
+  });
+  state.ans = new Array(state.qs.length).fill(null);
+  state.timeEnded = false;
+  state.mode = 'quiz'; startTimer(); render();
+}
+function setAns(i){ state.ans[state.idx] = i; if(state.idx < state.qs.length - 1){ state.idx++; } render(); }
+function back(){ if(state.idx > 0){ state.idx--; render(); } }
+function next(){
+  if(state.ans[state.idx]===null) return alert(UI.alertChoose);
+  if(state.idx < state.qs.length - 1){ state.idx++; render(); }
+  else { finish(); }
+}
+async function finish(){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+  state.mode = 'result'; render();
+  if(DATA.saveData && DATA.sheetUrl){
+    state.loading = true; render();
+    let score = state.ans.reduce((acc, a, i) => acc + (a === state.qs[i].answerIndex ? 1 : 0), 0);
+    let pct = Math.round((score/state.qs.length)*100);
+    try {
+      await fetch(DATA.sheetUrl, { method:'POST', body: JSON.stringify({name:state.name, class:state.class, score:score, percent:pct}), mode:'no-cors' });
+      setTimeout(async () => {
+        try { const res = await fetch(DATA.sheetUrl); state.ranking = await res.json(); render(); } catch(e){}
+        state.loading = false; render();
+      }, 1500);
+    } catch(e){ state.loading = false; render(); }
+  }
+}
+render();
+</script>
+</body></html>
